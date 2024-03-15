@@ -1,0 +1,6 @@
+dlib
+opencv-python-headless
+imutils
+pygame
+scipy
+warnings
