@@ -1,6 +1,7 @@
-dlib
+streamlit==1.32.2
+cmake
+dlib-bin
 opencv-python-headless
 imutils
 pygame
 scipy
-warnings
