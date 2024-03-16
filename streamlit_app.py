@@ -2,7 +2,7 @@ import streamlit as st
 import dlib
 import cv2
 from imutils import face_utils
-from pygame import mixer
+import pygame
 from scipy.spatial import distance
 import warnings
 
@@ -171,8 +171,8 @@ col=st.columns([1,1,1,1,1])
 start=col[0].button("Start")
 stop=col[1].button("Stop")
 if start:
-    mixer.init()
-    mixer.music.load('alarm.mp3')
+    pygame.mixer.init()
+    pygame.mixer.music.load('alarm.mp3')
     capture()
     
 if stop:
