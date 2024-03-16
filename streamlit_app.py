@@ -2,9 +2,9 @@ import streamlit as st
 import dlib
 import cv2
 from imutils import face_utils
-import pygame
 from scipy.spatial import distance
 import warnings
+import base64
 
 warnings.filterwarnings("ignore")
 
@@ -30,6 +30,7 @@ def draw(a,b,img):
 
 def capture():
     
+    audio_placeholder=st.empty()
     cap=cv2.VideoCapture(0,cv2.CAP_DSHOW)
     
     if cap is None or not cap.isOpened():
@@ -83,9 +84,6 @@ def capture():
                 elif avg_mouth>=50 and mouth_close:
                     m+=1
                     mouth_close=False
-                    
-                
-
                 
                 for i in range(36,41):
                     draw(mark[i],mark[i+1],img)
@@ -139,21 +137,31 @@ def capture():
                         cv2.putText(img,f'Timer : {timer}',(150,45),cv2.FONT_HERSHEY_PLAIN,2,(0,0,255),2)
                         
                         cv2.putText(img,'ALERT !',(400,45),cv2.FONT_HERSHEY_PLAIN,2,(0,0,255),2)
-                        mixer.music.play()
                         
-                            
-                       
+                        
+                        b64=base64.b64encode(file_bytes).decode()
+                        md = f"""
+                        <audio controls autoplay="true">
+                        <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
+                        </audio>
+                        """
+                        audio_placeholder.markdown(
+                            md,
+                            unsafe_allow_html=True
+                        )
+                    
                     else:
                         cv2.putText(img,f'Timer : {timer}',(150,45),cv2.FONT_HERSHEY_PLAIN,2,(0,255,0),2)
-
-                              
-        
+                        audio_placeholder.empty()
+          
         frame=cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
         frame_placeholder.image(frame,channels="RGB",width=400)
+        
         
         if cv2.waitKey(1)==ord('q'):
             cap.release()
             cv2.destroyAllWindows()
+
 
 if __name__=="__main__":
     
@@ -168,18 +176,21 @@ if __name__=="__main__":
     face_detect=dlib.get_frontal_face_detector()
     pred=dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
     
+    
     col=st.columns([1,1,1,1,1])
     start=col[0].button("Start")
     stop=col[1].button("Stop")
+    
+    
     if start:
-        pygame.init()
-        pygame.mixer.init()
-        pygame.mixer.music.load('alarm.mp3')
+        file=open("alarm.mp3","rb")
+        file_bytes=file.read()
+
         capture()
         
     if stop:
         cv2.destroyAllWindows()
-
-
-
-
+        
+        
+        
+        
