@@ -171,6 +171,7 @@ col=st.columns([1,1,1,1,1])
 start=col[0].button("Start")
 stop=col[1].button("Stop")
 if start:
+    pygame.init()
     pygame.mixer.init()
     pygame.mixer.music.load('alarm.mp3')
     capture()
