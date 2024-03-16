@@ -8,17 +8,6 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
-st.sidebar.title("RAJESH")
-st.sidebar.subheader("""Click on start button to launch camera.\nClick on stop button to stop the camera""")
-
-st.title("Eye Drowsiness Detection System")
-
-
-frame_placeholder=st.empty()
-
-face_detect=dlib.get_frontal_face_detector()
-pred=dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
-
 
 def calculate(a,b):
 
@@ -166,19 +155,31 @@ def capture():
             cap.release()
             cv2.destroyAllWindows()
 
+if __name__=="__main__":
+    
+    st.sidebar.title("RAJESH")
+    st.sidebar.subheader("""Click on start button to launch camera.\nClick on stop button to stop the camera""")
+    
+    st.title("Eye Drowsiness Detection System")
+    
+    
+    frame_placeholder=st.empty()
+    
+    face_detect=dlib.get_frontal_face_detector()
+    pred=dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
+    
+    col=st.columns([1,1,1,1,1])
+    start=col[0].button("Start")
+    stop=col[1].button("Stop")
+    if start:
+        pygame.init()
+        pygame.mixer.init()
+        pygame.mixer.music.load('alarm.mp3')
+        capture()
+        
+    if stop:
+        cv2.destroyAllWindows()
 
-col=st.columns([1,1,1,1,1])
-start=col[0].button("Start")
-stop=col[1].button("Stop")
-if start:
-    pygame.init()
-    pygame.mixer.init()
-    pygame.mixer.music.load('alarm.mp3')
-    capture()
-    
-if stop:
-    cv2.destroyAllWindows()
-    
-    
-    
-    
+
+
+
