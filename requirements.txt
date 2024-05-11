@@ -1,6 +1,6 @@
 streamlit==1.32.2
 cmake
-dlib-bin==19.22.99
+dlib-bin
 dlib==19.22.99
 opencv-python-headless
 imutils
